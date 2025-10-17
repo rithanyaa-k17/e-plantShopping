@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from './CartSlice';
 
 const ProductList = () => {
+  const dispatch = useDispatch();
+  const [addedToCart, setAddedToCart] = useState({});
+
   const plantsArray = [
     {
       category: 'Indoor Plants',
@@ -32,9 +37,8 @@ const ProductList = () => {
     },
   ];
 
-  const [addedToCart, setAddedToCart] = useState({});
-
   const handleAddToCart = (plant) => {
+    dispatch(addItem(plant)); // Dispatch Redux action
     setAddedToCart((prev) => ({
       ...prev,
       [plant.name]: true,
@@ -58,7 +62,6 @@ const ProductList = () => {
                 <p>{plant.description}</p>
                 <div>${plant.cost}</div>
                 <button
-                  className="product-button"
                   onClick={() => handleAddToCart(plant)}
                   disabled={addedToCart[plant.name]}
                 >
@@ -72,3 +75,5 @@ const ProductList = () => {
     </div>
   );
 };
+
+export default ProductList;
